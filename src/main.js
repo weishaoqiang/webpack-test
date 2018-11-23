@@ -1,2 +1,2 @@
-const name = "wei"
+import "./index.css"
 console.log('hello webpack')
