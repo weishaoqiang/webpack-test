@@ -10,7 +10,7 @@ module.exports = {
   mode: 'development',
   // 入口文件配置
   entry: {
-    main: './src/main.js',
+    main: './src/app.js',
   },
   // 输出文件配置
   output: {
@@ -19,21 +19,37 @@ module.exports = {
     // 文件路径
     filename: '[name][hash].js'
   },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      '@': path.join(__dirname, 'src'),
+      assets: path.join(__dirname, 'src', 'assets')
+    }
+  },
   // 打包模块
   module: {
     rules: [
       // css-loader
       {
+        test: /\.vue$/,
+        use: 'vue-loader',
+        exclude: /node_modules/
+      },
+      // {
+      //   test: /\.js$/,
+      //   use: 'babel-loader',
+      //   exclude: /node_modules/
+      // },
+      {
         test: /\.css$/,
-        // loader: ['style-loader', 'css-loader']
-        use: [
-          {
+        use: [{
+          loader: 'vue-style-loader'
+          },{
             loader: 'style-loader',
             options: {
               singleton: true
             }
-          },
-          {
+          },{
             loader: 'postcss-loader',
             options: styles.getPostCssConfig({
               themeImporter: {
@@ -43,14 +59,32 @@ module.exports = {
             })
           }
         ]
-      },
-      {
-        test: /\.svg$/,
-        use: ['raw-loader']
-      },
-      {
-        test: /\.(png|jpg|gif|jpeg)$/,
+      }, {
+        test: /\.less$/,
         use: [{
+          loader: 'vue-style-loader'
+        }, {
+          loader: 'style-loader',
+          options: {
+            singleton: true
+          }
+        }, {
+          loader: 'postcss-loader',
+          options: styles.getPostCssConfig({
+            themeImporter: {
+              themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
+            },
+            minify: true
+          })
+        }, {
+          loader: 'less-loader'
+        }]
+      },
+      {
+        test: /\.(png|jpg|gif|jpeg|svg)$/,
+        use: [{
+          loader: 'raw-loader'
+        },{
           loader: 'url-loader',
           options: {
             limit: 4096,
