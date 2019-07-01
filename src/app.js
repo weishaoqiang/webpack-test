@@ -1,13 +1,8 @@
 import "./index.less"
-import editorConfig from './config/editor.config'
+import CK from "./assets/ckeditor5-build-classic/build/ckeditor"
 
+console.log(CK)
 window.onload = () => {
-  const editorBox = document.getElementById('editor')
-  const editorHeader = document.getElementById('toolbar-container')
-  const btn = document.getElementById('btn')
-  editorConfig({ editor: editorBox, editorHeader: editorHeader }).then(editor => {
-    btn.addEventListener('click', (e) => {
-      let data = editor.getData()
-    })
-  })
+  let editor = document.getElementById('editor')
+  CK.create(editor).then(editor)
 }
