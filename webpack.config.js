@@ -4,6 +4,7 @@ const copyWebpackPlugin = require('copy-webpack-plugin')
 const htmlPlugin = require('html-webpack-plugin')
 const uglifyjs = require('uglifyjs-webpack-plugin')
 const { styles } = require('@ckeditor/ckeditor5-dev-utils')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   // 打包模式
@@ -114,7 +115,8 @@ module.exports = {
       minify: {
         removeAttributeQuotes: true
       }
-    })
+    }),
+    new VueLoaderPlugin()
   ],
   // webpack配置开启服务能力
   devServer: {
